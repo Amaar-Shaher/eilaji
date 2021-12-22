@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "2488006270",
+    "project_id": "eilaji",
+    "storage_bucket": "eilaji.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:2488006270:android:e6b0073a8ce3574fba8a2f",
+        "android_client_info": {
+          "package_name": "com.example.eilaji"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "2488006270-dj3vjbkk3hkiit8dj9upmfe3fcd655ac.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBeduPYwqtbQ07YrmSQT6RxuqK-vL9H1Dc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "2488006270-dj3vjbkk3hkiit8dj9upmfe3fcd655ac.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
