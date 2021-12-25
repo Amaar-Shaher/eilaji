@@ -1,4 +1,4 @@
-package com.example.eilaji
+package com.amaar.eilaji
 
 import android.os.Bundle
 import android.view.*
@@ -21,9 +21,9 @@ class LogInFragment : Fragment() {
         this.onSignInResult(res)
     }
     val providers = arrayListOf(
-      //  AuthUI.IdpConfig.PhoneBuilder().build()
-           AuthUI.IdpConfig.EmailBuilder().build(),
-       // AuthUI.IdpConfig.GoogleBuilder().build()
+        AuthUI.IdpConfig.PhoneBuilder().build(),
+        AuthUI.IdpConfig.EmailBuilder().build(),
+        AuthUI.IdpConfig.GoogleBuilder().build()
     )
 
     val signInIntent = AuthUI.getInstance()
@@ -85,7 +85,7 @@ class LogInFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        // Check if user is signed in (non-null) and update UI accordingly.
+        //Check if user is signed in (non-null) and update UI accordingly.
         val currentUser = Firebase.auth.currentUser
         if (currentUser != null) {
             isSignedIn = true
