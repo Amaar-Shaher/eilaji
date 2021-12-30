@@ -18,7 +18,11 @@
         android:id="@+id/addFragment"
         android:name="com.amaar.eilaji.AddFragment"
         android:label="fragment_add"
-        tools:layout="@layout/fragment_add" />
+        tools:layout="@layout/fragment_add" >
+        <action
+            android:id="@+id/action_addFragment_to_homePageFragment"
+            app:destination="@id/homePageFragment" />
+    </fragment>
     <fragment
         android:id="@+id/logInFragment"
         android:name="com.amaar.eilaji.LogInFragment"
