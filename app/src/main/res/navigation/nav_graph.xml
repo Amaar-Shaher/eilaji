@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/logInFragment">
+    app:startDestination="@id/homePageFragment">
 
     <fragment
         android:id="@+id/homePageFragment"
@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_homePageFragment_to_addFragment"
             app:destination="@id/addFragment" />
+        <action
+            android:id="@+id/action_homePageFragment_to_editFragment"
+            app:destination="@id/editFragment" />
     </fragment>
     <fragment
         android:id="@+id/addFragment"
@@ -31,5 +34,31 @@
         <action
             android:id="@+id/action_logInFragment_to_homePageFragment"
             app:destination="@id/homePageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editFragment"
+        android:name="com.amaar.eilaji.EditFragment"
+        android:label="EditFragment" >
+        <action
+            android:id="@+id/action_editFragment_to_homePageFragment"
+            app:destination="@id/homePageFragment" />
+        <argument
+            android:name="index"
+            app:argType="integer" />
+        <argument
+            android:name="diescription"
+            app:argType="string" />
+        <argument
+            android:name="firstDay"
+            app:argType="string" />
+        <argument
+            android:name="lastDay"
+            app:argType="string" />
+        <argument
+            android:name="manyTime"
+            app:argType="string" />
+        <argument
+            android:name="takePhoto"
+            app:argType="string" />
     </fragment>
 </navigation>

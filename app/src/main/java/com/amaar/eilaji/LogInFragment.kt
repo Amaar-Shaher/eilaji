@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
@@ -21,8 +23,8 @@ class LogInFragment : Fragment() {
         this.onSignInResult(res)
     }
     val providers = arrayListOf(
-       AuthUI.IdpConfig.PhoneBuilder().build(),
-           AuthUI.IdpConfig.EmailBuilder().build(),
+        AuthUI.IdpConfig.PhoneBuilder().build(),
+        AuthUI.IdpConfig.EmailBuilder().build(),
         AuthUI.IdpConfig.GoogleBuilder().build()
     )
 
@@ -97,8 +99,11 @@ class LogInFragment : Fragment() {
     private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
         val response = result.idpResponse
         if (result.resultCode == AppCompatActivity.RESULT_OK) {
-            val user = FirebaseAuth.getInstance().currentUser
-            println(user?.email)
+           // val user = FirebaseAuth.getInstance().currentUser
+            val action = LogInFragmentDirections.actionLogInFragmentToHomePageFragment()
+            this.findNavController().navigate(action)
+            //Navigation.findNavController(view).navigate(LogInFragmentDirections.actionLogInFragmentToHomePageFragment())
+            //println(user?.email)
         } else {
             println("else")
         }

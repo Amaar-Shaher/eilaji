@@ -13,7 +13,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".AddFragment">
+        tools:context=".EditFragment">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -42,7 +42,7 @@
                 android:layout_marginTop="12dp"
                 android:ems="10"
                 android:hint="Description"
-                android:text="@={viewmodelvar.description}"
+
                 android:inputType="textPersonName"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.511"
@@ -50,13 +50,12 @@
                 app:layout_constraintTop_toBottomOf="@+id/photo_text_view" />
 
             <EditText
-                android:id="@+id/first_day_view"
+                android:id="@+id/edit_first_day"
                 android:layout_width="167dp"
                 android:layout_height="35dp"
                 android:layout_marginStart="20dp"
                 android:ems="10"
                 android:hint="First Day"
-                android:text="@={viewmodelvar.firstDay}"
                 android:inputType="date"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -65,34 +64,32 @@
                 app:layout_constraintVertical_bias="0.466" />
 
             <EditText
-                android:id="@+id/time_view"
+                android:id="@+id/edit_many_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="100dp"
-                android:layout_marginTop="28dp"
+                android:layout_marginTop="120dp"
                 android:ems="10"
                 android:hint="How many times a day"
-                android:text="@={viewmodelvar.manyTime}"
                 android:inputType="time"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/first_day_view" />
+                app:layout_constraintTop_toBottomOf="@+id/edit_description_edit_view" />
 
             <EditText
-                android:id="@+id/last_day_view"
+                android:id="@+id/edit_last_day"
                 android:layout_width="167dp"
                 android:layout_height="35dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="24dp"
                 android:ems="10"
                 android:hint="Last Day"
-                android:text="@={viewmodelvar.lastDay}"
                 android:inputType="date"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/edit_description_edit_view" />
 
             <Button
-                android:id="@+id/save_btn_view"
+                android:id="@+id/edit_btn"
                 android:layout_width="366dp"
                 android:layout_height="42dp"
                 android:layout_marginStart="16dp"
@@ -100,7 +97,7 @@
                 android:layout_marginBottom="92dp"
 
                 android:background="@color/brun"
-                android:text="@string/save"
+                android:text="Edit"
                 android:textColor="#F3EFEF"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
