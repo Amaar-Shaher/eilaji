@@ -59,7 +59,7 @@ class AddFragment : Fragment() {
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             binding.apply {
 //       / arguments.let  {
-//            index = it?.getInt("index")!!
+//  /          index = it?.getInt("index")!!
 //            description = it.getString("description")!!
 //            firstDay = it.getInt("firstDay")!!
 //            lastDay = it.getInt("lastDay")!!
