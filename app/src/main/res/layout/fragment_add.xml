@@ -29,20 +29,21 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:text="@string/take_photo"
+                android:hint="Take Photo"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
-                android:id="@+id/description_edit_view"
+                android:id="@+id/edit_description_edit_view"
                 android:layout_width="366dp"
                 android:layout_height="61dp"
                 android:layout_marginTop="12dp"
                 android:ems="10"
+                android:hint="Description"
+                android:text="@={viewmodelvar.description}"
                 android:inputType="textPersonName"
-                android:text="Description"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.511"
                 app:layout_constraintStart_toStartOf="parent"
@@ -54,8 +55,9 @@
                 android:layout_height="35dp"
                 android:layout_marginStart="20dp"
                 android:ems="10"
+                android:hint="First Day"
+                android:text="@={viewmodelvar.firstDay}"
                 android:inputType="date"
-                android:text="First Day"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -69,8 +71,9 @@
                 android:layout_marginStart="100dp"
                 android:layout_marginTop="28dp"
                 android:ems="10"
+                android:hint="How many times a day"
+                android:text="@={viewmodelvar.manyTime}"
                 android:inputType="time"
-                android:text="How many times a day"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/first_day_view" />
 
@@ -81,11 +84,12 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="24dp"
                 android:ems="10"
+                android:hint="Last Day"
+                android:text="@={viewmodelvar.lastDay}"
                 android:inputType="date"
-                android:text="Last Day"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/description_edit_view" />
+                app:layout_constraintTop_toBottomOf="@+id/edit_description_edit_view" />
 
             <Button
                 android:id="@+id/save_btn_view"
