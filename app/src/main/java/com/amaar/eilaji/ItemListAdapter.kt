@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
@@ -82,6 +83,7 @@ class ItemListAdapter : ListAdapter<MedicationInfo,
             binding.executePendingBindings()
 
         }
+       // var medImage : ImageView = binding.medicationImageView
         var des : TextView = binding.describtionTextView
         val delete: ImageButton = binding.deleteIcon
         var edit: ImageButton = binding.editIcon
@@ -119,6 +121,7 @@ class ItemListAdapter : ListAdapter<MedicationInfo,
 
         val item = getItem(position)
         holder.bind(item)
+      //  holder.medImage.image = item.takePhoto
         holder.des.text = item.describtion
         holder.delete.setOnClickListener {
             datasourceObject.deleteTask(position)
