@@ -1,5 +1,6 @@
 package com.amaar.eilaji
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
@@ -100,9 +101,11 @@ class LogInFragment : Fragment() {
         val response = result.idpResponse
         if (result.resultCode == AppCompatActivity.RESULT_OK) {
            // val user = FirebaseAuth.getInstance().currentUser
-            val action = LogInFragmentDirections.actionLogInFragmentToHomePageFragment()
-            this.findNavController().navigate(action)
-            //Navigation.findNavController(view).navigate(LogInFragmentDirections.actionLogInFragmentToHomePageFragment())
+            val intent = Intent(this.requireActivity(), MainActivity2::class.java)
+            startActivity(intent)
+         //   val action = LogInFragmentDirections.actionLogInFragmentToHomePageFragment()
+        //    this.findNavController().navigate(action)
+        //    Navigation.findNavController(view).navigate(LogInFragmentDirections.actionLogInFragmentToHomePageFragment())
             //println(user?.email)
         } else {
             println("else")
@@ -112,6 +115,8 @@ class LogInFragment : Fragment() {
     private fun signOut() {
         AuthUI.getInstance()
             .signOut(this.requireContext())
+        val intent = Intent(this.requireActivity(), MainActivity::class.java)
+        startActivity(intent)
 
     }
 }

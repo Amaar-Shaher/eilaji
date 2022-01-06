@@ -35,12 +35,12 @@ class HomePageFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        binding?.addIcon?.setOnClickListener { view:View ->
-            val action = HomePageFragmentDirections.actionHomePageFragmentToAddFragment(
-             //   getString(R.string.add_fragment_title)
-
-            )
-            this.findNavController().navigate(action)
-        }
+//        binding?.addIcon?.setOnClickListener { view:View ->
+//            val action = HomePageFragmentDirections.actionHomePageFragmentToAddFragment(
+//             //   getString(R.string.add_fragment_title)
+//
+//            )
+//            this.findNavController().navigate(action)
+//        }
     }
 }
