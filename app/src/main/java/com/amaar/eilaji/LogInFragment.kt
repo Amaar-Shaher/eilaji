@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import com.amaar.eilaji.databinding.FragmentLogInBinding
+import com.amaar.eilaji.databinding.FragmentProfileBinding
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
@@ -16,6 +18,8 @@ import com.google.firebase.ktx.Firebase
 
 
 class LogInFragment : Fragment() {
+
+    private lateinit var binding: FragmentLogInBinding
     var isSignedIn = false
 
     private val signInLauncher = registerForActivityResult(
@@ -44,11 +48,18 @@ class LogInFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
+       // return super.onCreateView(inflater, container, savedInstanceState)
+        binding = FragmentLogInBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+binding.loginBtn.setOnClickListener {
+    signInLauncher.launch(signInIntent)
+//    val action = LogInFragmentDirections.actionLogInFragmentToHomePageFragment()
+//    this.findNavController().navigate(action)
 
+}
 
     }
 

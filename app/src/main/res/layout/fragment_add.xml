@@ -19,7 +19,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/light_yello">
+            android:background="@drawable/backgraund">
 
 
             <com.google.android.material.imageview.ShapeableImageView
@@ -99,10 +99,12 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="80dp"
+                android:background="@color/btn"
 
-                android:background="@color/brun"
+
                 android:text="@string/save"
                 android:textColor="#F3EFEF"
+                android:textSize="18dp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -115,10 +117,11 @@
                 android:layout_width="143dp"
                 android:layout_height="44dp"
                 android:layout_marginTop="16dp"
-                android:background="@color/week_brun"
+                android:background="@color/btn"
                 android:text="Take Photo"
                 android:textAlignment="center"
                 android:textColor="#F4F0F0"
+                android:textSize="20dp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

@@ -117,7 +117,7 @@ class AddFragment : Fragment() {
 
 
         }
-    private fun camera(){
+     fun camera(){
         Toast.makeText(this.requireContext(), "camera", Toast.LENGTH_SHORT).show()
         if (allPermissionsGranted()) {
            val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)

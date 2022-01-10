@@ -1,5 +1,6 @@
 package com.amaar.eilaji
 
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.amaar.eilaji.databinding.ItemListBinding
+import com.bumptech.glide.Glide
 
 //class ItemListAdapter :
 //    ListAdapter<MedicationInfo, ItemListAdapter.ItemViewHolder>(DiffCallback) {
@@ -65,6 +67,7 @@ class ItemListAdapter : ListAdapter<MedicationInfo,
         ItemListAdapter.ItemViewHolder>(DiffCallback) {
     var datasourceObject = DataSource()
 
+
     var index = 0
     var takePhoto = ""
     var describtion = ""
@@ -87,6 +90,7 @@ class ItemListAdapter : ListAdapter<MedicationInfo,
         var des : TextView = binding.describtionTextView
         val delete: ImageButton = binding.deleteIcon
         var edit: ImageButton = binding.editIcon
+        var image : ImageView = binding.medicationImageView
 
       //  val desTextview: TextView = binding.descriptionTextView
     }
@@ -121,11 +125,18 @@ class ItemListAdapter : ListAdapter<MedicationInfo,
 
         val item = getItem(position)
         holder.bind(item)
-      //  holder.medImage.image = item.takePhoto
+
+       // Glide.
+       // holder.image. = item.takePhoto
         holder.des.text = item.describtion
         holder.delete.setOnClickListener {
             datasourceObject.deleteTask(position)
             notifyDataSetChanged()
+
+//            Glide.with(context)
+//                .load(item)
+//                .into(holder.image)
+
         }
         holder.edit.setOnClickListener { view: View ->
             Log.d("TAG", "onBindViewHolder: ${item.describtion}")
@@ -146,4 +157,5 @@ class ItemListAdapter : ListAdapter<MedicationInfo,
         }
 
     }
+
 }

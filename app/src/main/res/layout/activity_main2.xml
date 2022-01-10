@@ -28,7 +28,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:menu="@menu/menu_navmenu"
-        android:background="@color/white"
+        android:background="@color/blue"
         app:itemIconTint="#FFFF"
         app:itemTextColor="#FFFF"/>
 

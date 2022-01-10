@@ -6,7 +6,8 @@
     tools:context=".HomePageFragment">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/medcation_home">
 
 
 <!--    <androidx.recyclerview.widget.RecyclerView-->
