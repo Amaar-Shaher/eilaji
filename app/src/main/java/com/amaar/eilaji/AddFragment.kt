@@ -31,6 +31,9 @@ import androidx.media.MediaBrowserServiceCompat.RESULT_OK
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.amaar.eilaji.databinding.FragmentAddBinding
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import java.io.File
 
 private const val FILE_NAME = "photo.jpg"
@@ -40,12 +43,35 @@ private val PERMISSION_REQUEST_CODE: Int = 101
 
 class AddFragment : Fragment() {
 
+    private val dataAddDataBase = Firebase.firestore.collection("data medication")
+    private lateinit var binding: FragmentAddBinding
+
     companion object {
         private const val REQUEST_CODE_PERMISSIONS = 10
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
     }
 
-    private lateinit var binding: FragmentAddBinding
+    private fun getAddDataUser():MedicationInfo{
+        val userId = Firebase.auth.currentUser!!.uid
+        val takePhoto = binding.takePhotoTextView.toString()
+        val descraption = binding.descriptionEditView.text.toString()
+        val farstDay = binding.firstDayView.text.toString()
+        val lastDay = binding.lastDayView.text.toString()
+        val manyTime = binding.timeView.text.toString()
+
+        return MedicationInfo(userId,takePhoto,descraption,farstDay,lastDay,manyTime)
+    }
+
+    private fun saveAddDataUser(medicationInfo : MedicationInfo){
+        dataAddDataBase.document(medicationInfo.idDataUser).set(medicationInfo)
+            .addOnCompleteListener{task ->
+               if (task.isSuccessful) {
+                   Toast.makeText(this.requireContext(), "OK", Toast.LENGTH_SHORT).show()
+               }
+            }
+
+    }
+
 
 
 //    override fun onCreate(savedInstanceState: Bundle?) {
@@ -104,6 +130,9 @@ class AddFragment : Fragment() {
             }
 
             binding?.saveBtnView?.setOnClickListener { view: View ->
+
+                var userAddet = getAddDataUser()
+                saveAddDataUser(userAddet)
                 Navigation.findNavController(view)
                     .navigate(AddFragmentDirections.actionAddFragmentToHomePageFragment())
                 viewModel.AddToList()
