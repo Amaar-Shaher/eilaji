@@ -17,9 +17,11 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.amaar.eilaji.databinding.FragmentEditBinding
+import com.bumptech.glide.Glide
 import java.io.File
 
 
@@ -75,6 +77,10 @@ class EditFragment : Fragment() {
             binding.editFirstDay.setText(firstDay)
             binding.editLastDay.setText(lastDay)
             binding.editManyTime.setText(manyTime)
+      //  Glide.with(requireContext()).load(viewModel.takePhoto.toUri())
+         //   .into(binding.photoTextView)
+
+
 
 
 

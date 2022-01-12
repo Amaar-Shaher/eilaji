@@ -9,6 +9,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.amaar.eilaji.databinding.FragmentHomePageBinding
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 
 class HomePageFragment : Fragment() {
     private val viewModel: MyViewModel by activityViewModels ()
@@ -33,14 +35,31 @@ class HomePageFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        getAllMad()
+        val adapter = ItemListAdapter()
+        binding?.recyclerView?.adapter = adapter
 
+    }
 
-//        binding?.addIcon?.setOnClickListener { view:View ->
-//            val action = HomePageFragmentDirections.actionHomePageFragmentToAddFragment(
-//             //   getString(R.string.add_fragment_title)
-//
-//            )
-//            this.findNavController().navigate(action)
-//        }
+    private fun  getAllMad(){
+        val dataAddDataBase = FirebaseFirestore.getInstance()
+
+        val madGet = dataAddDataBase.collection("data medication")
+            .addSnapshotListener { snap, e->
+            if (e!=null){
+                return@addSnapshotListener
+            }
+            val list = mutableListOf<MedicationInfo>()
+            snap?.documents?.forEach{
+                if(it.exists()) {
+                    val medList = it.toObject(MedicationInfo::class.java)
+                    list.add(medList!!)
+                    val adapter = ItemListAdapter()
+                    binding?.recyclerView?.adapter = adapter
+                    adapter.submitList(list)
+
+                }
+            }
+        }
     }
 }

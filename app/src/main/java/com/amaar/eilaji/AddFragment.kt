@@ -23,6 +23,7 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil.setContentView
 
 import androidx.fragment.app.viewModels
@@ -43,7 +44,6 @@ private val PERMISSION_REQUEST_CODE: Int = 101
 
 class AddFragment : Fragment() {
 
-    private val dataAddDataBase = Firebase.firestore.collection("data medication")
     private lateinit var binding: FragmentAddBinding
 
     companion object {
@@ -52,25 +52,29 @@ class AddFragment : Fragment() {
     }
 
     private fun getAddDataUser():MedicationInfo{
-        val userId = Firebase.auth.currentUser!!.uid
         val takePhoto = binding.takePhotoTextView.toString()
         val descraption = binding.descriptionEditView.text.toString()
         val farstDay = binding.firstDayView.text.toString()
         val lastDay = binding.lastDayView.text.toString()
         val manyTime = binding.timeView.text.toString()
 
-        return MedicationInfo(userId,takePhoto,descraption,farstDay,lastDay,manyTime)
+        return MedicationInfo(takePhoto,descraption,farstDay,lastDay,manyTime)
     }
 
-    private fun saveAddDataUser(medicationInfo : MedicationInfo){
-        dataAddDataBase.document(medicationInfo.idDataUser).set(medicationInfo)
-            .addOnCompleteListener{task ->
-               if (task.isSuccessful) {
-                   Toast.makeText(this.requireContext(), "OK", Toast.LENGTH_SHORT).show()
-               }
-            }
+//    private fun saveAddDataUser(medicationInfo : MedicationInfo){
+//        var mad = dataAddDataBase.document()
+//        medicationInfo.idDataUser= mad.id
+//        mad.set(medicationInfo)
+//            .addOnCompleteListener{task ->
+//                if (task.isSuccessful) {
+//                    Toast.makeText(this.requireContext(), "OK", Toast.LENGTH_SHORT).show()
+//                }
+//            }
+//    }
 
-    }
+
+
+
 
 
 
@@ -132,7 +136,7 @@ class AddFragment : Fragment() {
             binding?.saveBtnView?.setOnClickListener { view: View ->
 
                 var userAddet = getAddDataUser()
-                saveAddDataUser(userAddet)
+                viewModel.addNew(userAddet , photoFile.toUri())
                 Navigation.findNavController(view)
                     .navigate(AddFragmentDirections.actionAddFragmentToHomePageFragment())
                 viewModel.AddToList()

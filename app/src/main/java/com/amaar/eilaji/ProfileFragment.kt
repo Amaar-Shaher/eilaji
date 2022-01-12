@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.amaar.eilaji.databinding.FragmentAddBinding
+import androidx.navigation.Navigation
 import com.amaar.eilaji.databinding.FragmentProfileBinding
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.ktx.auth
@@ -36,15 +36,18 @@ class ProfileFragment : Fragment() {
         binding.logoutBtn.setOnClickListener {
             signOut()
         }
-        binding.saveDataUserBtn.setOnClickListener {
-            var user = getDataUser()
+        binding.editProfileImageView.setOnClickListener {
+            Navigation.findNavController(view)
+                .navigate(R.id.action_profileFragment_to_editProfileFragment)
+
+            var user = setDataUser()
             saveDataUser(user)
         }
     }
-    private fun getDataUser():UserInfo{
+    private fun setDataUser():UserInfo{
         val userId = Firebase.auth.currentUser!!.uid
-        val nameUser = binding.patientNameEditText.text.toString()
-        val numberUser = binding.patientMobileNumberEditText.text.toString()
+        val nameUser = binding.patientNameTextView.text.toString()
+        val numberUser = binding.patientMobileNumberTextView.text.toString()
         val imageUser = binding.personImageView.toString()
 
         return UserInfo(userId,nameUser,numberUser,imageUser)
@@ -56,9 +59,12 @@ class ProfileFragment : Fragment() {
                 if (task.isSuccessful){
                     Toast.makeText(this.requireContext(), "saved", Toast.LENGTH_SHORT).show()
                 }
-
-
             }
+    }
+    private fun getDataUser(userInfo: UserInfo){
+        profileDataBase.document(userInfo.idUser).get().addOnCompleteListener {
+
+        }
     }
 
     private fun signOut() {

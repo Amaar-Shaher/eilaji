@@ -64,7 +64,7 @@ import com.bumptech.glide.Glide
 
 
 class ItemListAdapter : ListAdapter<MedicationInfo,
-        ItemListAdapter.ItemViewHolder>(DiffCallback) {
+        ItemListAdapter.ItemViewHolder>(DiffCallBack) {
     var datasourceObject = DataSource()
 
 
@@ -86,25 +86,42 @@ class ItemListAdapter : ListAdapter<MedicationInfo,
             binding.executePendingBindings()
 
         }
-       // var medImage : ImageView = binding.medicationImageView
-        var des : TextView = binding.describtionTextView
+
+        // var medImage : ImageView = binding.medicationImageView
+        var des: TextView = binding.describtionTextView
         val delete: ImageButton = binding.deleteIcon
         var edit: ImageButton = binding.editIcon
-        var image : ImageView = binding.medicationImageView
+        var image: ImageView = binding.medicationImageView
 
-      //  val desTextview: TextView = binding.descriptionTextView
+        //  val desTextview: TextView = binding.descriptionTextView
     }
 
-    companion object DiffCallback : DiffUtil.ItemCallback<MedicationInfo>() {
-        override fun areItemsTheSame(oldItem: MedicationInfo, newItem: MedicationInfo): Boolean {
-            return newItem.describtion == oldItem.describtion
-        }
-
-        override fun areContentsTheSame(oldItem: MedicationInfo, newItem: MedicationInfo): Boolean {
+//    companion object DiffCallback : DiffUtil.ItemCallback<MedicationInfo>() {
+////        override fun areItemsTheSame(oldItem: MedicationInfo, newItem: MedicationInfo): Boolean {
+////            return newItem.describtion == oldItem.describtion
+////        }
+//
+//
+//        override fun areContentsTheSame(oldItem: MedicationInfo, newItem: MedicationInfo): Boolean {
+//            return oldItem.describtion == newItem.describtion
+//        }
+companion object {
+    private val DiffCallBack = object : DiffUtil.ItemCallback<MedicationInfo>() {
+        override fun areItemsTheSame(
+            oldItem: MedicationInfo,
+            newItem: MedicationInfo
+        ): Boolean {
             return oldItem.describtion == newItem.describtion
         }
-    }
 
+        override fun areContentsTheSame(
+            oldItem: MedicationInfo,
+            newItem: MedicationInfo
+        ): Boolean {
+            return oldItem.takePhoto == newItem.takePhoto
+        }
+    }
+}
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -125,6 +142,12 @@ class ItemListAdapter : ListAdapter<MedicationInfo,
 
         val item = getItem(position)
         holder.bind(item)
+        Log.e("TAG","${item.takePhoto}")
+
+        Glide.with(holder.image)
+
+            .load(item.takePhoto)
+            .into(holder.image)
 
        // Glide.
        // holder.image. = item.takePhoto
@@ -133,9 +156,7 @@ class ItemListAdapter : ListAdapter<MedicationInfo,
             datasourceObject.deleteTask(position)
             notifyDataSetChanged()
 
-//            Glide.with(context)
-//                .load(item)
-//                .into(holder.image)
+
 
         }
         holder.edit.setOnClickListener { view: View ->
