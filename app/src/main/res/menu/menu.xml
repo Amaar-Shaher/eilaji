@@ -7,4 +7,7 @@
 
     <item android:title="Log in"
         android:id="@+id/log_in"/>
+
+
+
 </menu>

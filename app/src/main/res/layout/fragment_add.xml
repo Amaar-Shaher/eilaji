@@ -1,99 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".AddFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <data>
+        <variable
+            name="viewmodelvar"
+            type="com.amaar.eilaji.MyViewModel" />
+
+    </data>
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/light_yello">
+        tools:context=".AddFragment">
 
 
-    <!-- TODO: Update blank fragment layout -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/backgraund">
 
 
-        <TextView
-            android:id="@+id/photo_text_view"
-            android:layout_width="366dp"
-            android:layout_height="210dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:text="@string/take_photo"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/photo_text_view"
+                android:layout_width="366dp"
+                android:layout_height="210dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:hint="Take Photo"
+                app:shapeAppearanceOverlay="@style/Circular"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/description_edit_view"
-            android:layout_width="366dp"
-            android:layout_height="61dp"
-            android:layout_marginTop="12dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Description"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.511"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/photo_text_view" />
+            <EditText
+                android:id="@+id/description_edit_view"
+                android:layout_width="366dp"
+                android:layout_height="61dp"
+                android:layout_marginTop="96dp"
+                android:ems="10"
+                android:hint="Description"
+                android:inputType="textPersonName"
 
-        <EditText
-            android:id="@+id/first_day_view"
-            android:layout_width="167dp"
-            android:layout_height="35dp"
-            android:layout_marginStart="20dp"
-            android:ems="10"
-            android:inputType="date"
-            android:text="First Day"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.466" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.511"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/photo_text_view" />
 
-        <EditText
-            android:id="@+id/time_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
-            android:layout_marginTop="28dp"
-            android:ems="10"
-            android:inputType="time"
-            android:text="How many times a day"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/first_day_view" />
+            <EditText
+                android:id="@+id/first_day_view"
+                android:layout_width="167dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="28dp"
+                android:layout_marginEnd="16dp"
+                android:ems="10"
+                android:hint="First Day"
+                android:inputType="date"
 
-        <EditText
-            android:id="@+id/last_day_view"
-            android:layout_width="167dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="24dp"
-            android:ems="10"
-            android:inputType="date"
-            android:text="Last Day"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/description_edit_view" />
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/last_day_view"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/description_edit_view" />
 
-        <Button
-            android:id="@+id/save_btn_view"
-            android:layout_width="366dp"
-            android:layout_height="42dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="164dp"
 
-            android:background="@color/brun"
-            android:text="@string/save"
-            android:textColor="#F3EFEF"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            <EditText
+                android:id="@+id/time_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="84dp"
+                android:ems="10"
+                android:hint="How many times a day"
+                android:inputType="time"
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</FrameLayout>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/description_edit_view" />
+
+            <EditText
+                android:id="@+id/last_day_view"
+                android:layout_width="167dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="28dp"
+                android:layout_marginEnd="16dp"
+                android:ems="10"
+                android:hint="Last Day"
+                android:inputType="date"
+
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/first_day_view"
+                app:layout_constraintTop_toBottomOf="@+id/description_edit_view" />
+
+            <Button
+                android:id="@+id/save_btn_view"
+                android:layout_width="366dp"
+                android:layout_height="42dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@color/btn"
+
+
+                android:text="@string/save"
+                android:textColor="#F3EFEF"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.538"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageButton
+                android:id="@+id/take_photo_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/common_google_signin_btn_text_light_disabled"
+
+                android:layout_marginTop="36dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/photo_text_view"
+                app:srcCompat="@drawable/ic_baseline_add_a_photo" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+</layout>

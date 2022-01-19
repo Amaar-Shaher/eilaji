@@ -1,59 +1,92 @@
 package com.amaar.eilaji
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.amaar.eilaji.databinding.FragmentHomePageBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.*
+import com.google.firebase.ktx.Firebase
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [HomePageFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class HomePageFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private val viewModel: MyViewModel by activityViewModels ()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    private var appInfo = listOf<MedicationInfo>()
+    private val db = FirebaseFirestore.getInstance()
+
+
+
+    private var _binding: FragmentHomePageBinding? = null
+    private val binding get() = _binding
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentHomePageBinding.inflate(inflater, container, false)
+        val adapter = ItemListAdapter(viewModel)
+       binding?.recyclerView?.layoutManager = LinearLayoutManager(this.context)
+        binding?.recyclerView?.adapter = adapter
+        adapter.submitList(MedicationList)
+
+
+        return binding?.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        getAllMad()
+        val adapter = ItemListAdapter(viewModel)
+        binding?.recyclerView?.adapter = adapter
+
+    }
+
+    private fun  getAllMad(){
+        val dataAddDataBase = FirebaseFirestore.getInstance()
+
+        val madGet = dataAddDataBase.collection("data medication")
+            .addSnapshotListener { snap, e->
+            if (e!=null){
+                return@addSnapshotListener
+            }
+            val list = mutableListOf<MedicationInfo>()
+            snap?.documents?.forEach{
+                if(it.exists()) {
+                    val medList = it.toObject(MedicationInfo::class.java)
+                    list.add(medList!!)
+                    val adapter = ItemListAdapter(viewModel)
+                    binding?.recyclerView?.adapter = adapter
+                    adapter.submitList(list)
+
+                }
+            }
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home_page, container, false)
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HomePageFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HomePageFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
+//    private fun eventChangeListener() {
+//        db.collection("users").addSnapshotListener(object : EventListener<QuerySnapshot> {
+//            override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+//                if (error != null) {
+//                    Log.e("error", error.message.toString())
+//                    return
+//                }
+//                for (dc: DocumentChange in value?.documentChanges!!) {
+//                    if (dc.type == DocumentChange.Type.ADDED) {
+//                        appInfo.(dc.document.toObject(MedicationInfo::class.java))
+//                    }
+//                }
+//                val adapter =
+//                  (appInfo.filter { it?.idDataUser == FirebaseAuth.getInstance().currentUser?.uid }
+//                        .toList())
+//                binding?.recyclerView?.adapter
+//            }
+//        })
+//    }
 }

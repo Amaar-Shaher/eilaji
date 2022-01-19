@@ -1,9 +1,15 @@
 package com.amaar.eilaji
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
+import com.amaar.eilaji.databinding.FragmentLogInBinding
+import com.amaar.eilaji.databinding.FragmentProfileBinding
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
@@ -13,7 +19,11 @@ import com.google.firebase.ktx.Firebase
 
 
 class LogInFragment : Fragment() {
+
+    private lateinit var binding: FragmentLogInBinding
     var isSignedIn = false
+
+    private val profilViewModel : UserProfileViewModel by viewModels()
 
     private val signInLauncher = registerForActivityResult(
         FirebaseAuthUIActivityResultContract()
@@ -21,8 +31,8 @@ class LogInFragment : Fragment() {
         this.onSignInResult(res)
     }
     val providers = arrayListOf(
-       AuthUI.IdpConfig.PhoneBuilder().build(),
-           AuthUI.IdpConfig.EmailBuilder().build(),
+        AuthUI.IdpConfig.PhoneBuilder().build(),
+        AuthUI.IdpConfig.EmailBuilder().build(),
         AuthUI.IdpConfig.GoogleBuilder().build()
     )
 
@@ -34,6 +44,12 @@ class LogInFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+        // action_logInFragment_to_homePageFragment
+        // move isLogIn() to this fragment NOT ViewModel
+//        if (isLogIn() == true){
+//            val intent = Intent(this.requireActivity(), MainActivity2::class.java)
+//            startActivity(intent)
+//        }
     }
 
     override fun onCreateView(
@@ -41,11 +57,19 @@ class LogInFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
+       // return super.onCreateView(inflater, container, savedInstanceState)
+        binding = FragmentLogInBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    binding.loginBtn.setOnClickListener {
 
+    signInLauncher.launch(signInIntent)
+//    val action = LogInFragmentDirections.actionLogInFragmentToHomePageFragment()
+//    this.findNavController().navigate(action)
+
+}
 
     }
 
@@ -97,8 +121,13 @@ class LogInFragment : Fragment() {
     private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
         val response = result.idpResponse
         if (result.resultCode == AppCompatActivity.RESULT_OK) {
-            val user = FirebaseAuth.getInstance().currentUser
-            println(user?.email)
+           // val user = FirebaseAuth.getInstance().currentUser
+            val intent = Intent(this.requireActivity(), MainActivity2::class.java)
+            startActivity(intent)
+         //   val action = LogInFragmentDirections.actionLogInFragmentToHomePageFragment()
+        //    this.findNavController().navigate(action)
+        //    Navigation.findNavController(view).navigate(LogInFragmentDirections.actionLogInFragmentToHomePageFragment())
+            //println(user?.email)
         } else {
             println("else")
         }
@@ -107,6 +136,15 @@ class LogInFragment : Fragment() {
     private fun signOut() {
         AuthUI.getInstance()
             .signOut(this.requireContext())
+        val intent = Intent(this.requireActivity(), MainActivity::class.java)
+        startActivity(intent)
 
     }
+
+//    fun isLogIn():Boolean{
+//        val currentUser = Firebase.auth.currentUser
+//        if (currentUser != null)
+//            return true
+//        else return false
+//    }
 }
