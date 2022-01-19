@@ -1,6 +1,7 @@
 package com.amaar.eilaji
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,11 +10,17 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.amaar.eilaji.databinding.FragmentHomePageBinding
-import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.*
 import com.google.firebase.ktx.Firebase
 
 class HomePageFragment : Fragment() {
     private val viewModel: MyViewModel by activityViewModels ()
+
+    private var appInfo = listOf<MedicationInfo>()
+    private val db = FirebaseFirestore.getInstance()
+
+
 
     private var _binding: FragmentHomePageBinding? = null
     private val binding get() = _binding
@@ -24,7 +31,7 @@ class HomePageFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentHomePageBinding.inflate(inflater, container, false)
-        val adapter = ItemListAdapter()
+        val adapter = ItemListAdapter(viewModel)
        binding?.recyclerView?.layoutManager = LinearLayoutManager(this.context)
         binding?.recyclerView?.adapter = adapter
         adapter.submitList(MedicationList)
@@ -36,7 +43,7 @@ class HomePageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getAllMad()
-        val adapter = ItemListAdapter()
+        val adapter = ItemListAdapter(viewModel)
         binding?.recyclerView?.adapter = adapter
 
     }
@@ -54,7 +61,7 @@ class HomePageFragment : Fragment() {
                 if(it.exists()) {
                     val medList = it.toObject(MedicationInfo::class.java)
                     list.add(medList!!)
-                    val adapter = ItemListAdapter()
+                    val adapter = ItemListAdapter(viewModel)
                     binding?.recyclerView?.adapter = adapter
                     adapter.submitList(list)
 
@@ -62,4 +69,24 @@ class HomePageFragment : Fragment() {
             }
         }
     }
+
+//    private fun eventChangeListener() {
+//        db.collection("users").addSnapshotListener(object : EventListener<QuerySnapshot> {
+//            override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+//                if (error != null) {
+//                    Log.e("error", error.message.toString())
+//                    return
+//                }
+//                for (dc: DocumentChange in value?.documentChanges!!) {
+//                    if (dc.type == DocumentChange.Type.ADDED) {
+//                        appInfo.(dc.document.toObject(MedicationInfo::class.java))
+//                    }
+//                }
+//                val adapter =
+//                  (appInfo.filter { it?.idDataUser == FirebaseAuth.getInstance().currentUser?.uid }
+//                        .toList())
+//                binding?.recyclerView?.adapter
+//            }
+//        })
+//    }
 }

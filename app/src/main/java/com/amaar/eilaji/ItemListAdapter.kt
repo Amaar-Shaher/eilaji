@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.lifecycle.ViewModel
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
@@ -63,12 +64,12 @@ import com.bumptech.glide.Glide
 // }
 
 
-class ItemListAdapter : ListAdapter<MedicationInfo,
+class ItemListAdapter(private val viewModel : MyViewModel) : ListAdapter<MedicationInfo,
         ItemListAdapter.ItemViewHolder>(DiffCallBack) {
     var datasourceObject = DataSource()
 
 
-    var index = 0
+
     var takePhoto = ""
     var describtion = ""
     var firstDay = ""
@@ -129,7 +130,7 @@ companion object {
     ): ItemViewHolder {
         return ItemViewHolder(
             ItemListBinding.inflate(
-                LayoutInflater.from(parent.context)
+                LayoutInflater.from(parent.context),parent,false
             )
         )
     }
@@ -153,16 +154,14 @@ companion object {
        // holder.image. = item.takePhoto
         holder.des.text = item.describtion
         holder.delete.setOnClickListener {
-            datasourceObject.deleteTask(position)
-            notifyDataSetChanged()
-
+            viewModel.deleteMed(item)
 
 
         }
         holder.edit.setOnClickListener { view: View ->
             Log.d("TAG", "onBindViewHolder: ${item.describtion}")
             Navigation.findNavController(view)
-                .navigate(HomePageFragmentDirections.actionHomePageFragmentToEditFragment(position,item.describtion,item.firstDay,item.lastDay,item.manyTime,item.takePhoto))
+                .navigate(HomePageFragmentDirections.actionHomePageFragmentToEditFragment(item.idDataUser,item.describtion,item.firstDay,item.lastDay,item.manyTime,item.takePhoto))
                 //view.findNavController().navigate(position)
           //  datasourceObject.updateTask(index, MedicationInfo(takePhoto, describtion, firstDay, lastDay, manyTime ))
 

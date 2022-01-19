@@ -12,6 +12,7 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -39,12 +40,14 @@ import java.io.File
 
 private const val FILE_NAME = "photo.jpg"
 private const val REQUEST_CODE = 42
-private lateinit var photoFile: File
+private var photoFile: File? = null
 private val PERMISSION_REQUEST_CODE: Int = 101
 
 class AddFragment : Fragment() {
 
     private lateinit var binding: FragmentAddBinding
+    private val viewModel: MyViewModel by viewModels()
+
 
     companion object {
         private const val REQUEST_CODE_PERMISSIONS = 10
@@ -52,13 +55,14 @@ class AddFragment : Fragment() {
     }
 
     private fun getAddDataUser():MedicationInfo{
-        val takePhoto = binding.takePhotoTextView.toString()
+    //    val takePhoto = binding.takePhotoTextView.text.toString()
         val descraption = binding.descriptionEditView.text.toString()
         val farstDay = binding.firstDayView.text.toString()
         val lastDay = binding.lastDayView.text.toString()
         val manyTime = binding.timeView.text.toString()
 
-        return MedicationInfo(takePhoto,descraption,farstDay,lastDay,manyTime)
+       // Log.e("TAG", "getAddDataUser: ${MedicationInfo(descraption,farstDay,lastDay,manyTime)}", )
+        return MedicationInfo("",descraption,farstDay,lastDay,manyTime)
     }
 
 //    private fun saveAddDataUser(medicationInfo : MedicationInfo){
@@ -87,13 +91,7 @@ class AddFragment : Fragment() {
 //
 //        }
    // }
-        private val viewModel: MyViewModel by viewModels()
 
-        var index = 0
-        var description = ""
-        var firstDay = 0
-        var lastDay = 0
-        var manyTime = 0
 
 
         override fun onCreateView(
@@ -109,12 +107,6 @@ class AddFragment : Fragment() {
 
 
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-
-
-
-
-
 
             binding.apply {
 //       / arguments.let  {
@@ -133,13 +125,20 @@ class AddFragment : Fragment() {
                 viewmodelvar = viewModel
             }
 
-            binding?.saveBtnView?.setOnClickListener { view: View ->
+            binding.saveBtnView.setOnClickListener {
 
                 var userAddet = getAddDataUser()
-                viewModel.addNew(userAddet , photoFile.toUri())
+                Log.e("TAG", "onViewCreatedbefore: ${userAddet.describtion}", )
+
+                viewModel.addNew(userAddet , photoFile!!.toUri())
+                Log.e("TAG", "onViewCreated1: ${userAddet.describtion}", )
+                Log.e("TAG", "onViewCreated2: ${userAddet.firstDay}", )
+                Log.e("TAG", "onViewCreated3: ${userAddet.lastDay}", )
+
+
                 Navigation.findNavController(view)
                     .navigate(AddFragmentDirections.actionAddFragmentToHomePageFragment())
-                viewModel.AddToList()
+               // viewModel.AddToList()
             }
             binding.takePhotoBtn.setOnClickListener {
 
@@ -157,7 +156,7 @@ class AddFragment : Fragment() {
             startActivity(takePictureIntent)
             photoFile = getPhotoFile(FILE_NAME)
 
-            val fileProvider = FileProvider.getUriForFile(this.requireContext(), "com.amaar.eilaji.fileprovider", photoFile)
+            val fileProvider = FileProvider.getUriForFile(this.requireContext(), "com.amaar.eilaji.fileprovider", photoFile!!)
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider)
             if (takePictureIntent.resolveActivity(this.requireActivity().packageManager) != null) {
                 startActivityForResult(takePictureIntent, REQUEST_CODE)
@@ -185,7 +184,7 @@ class AddFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
 //          val takenImage = data?.extras?.get("data") as Bitmap
-            val takenImage = BitmapFactory.decodeFile(photoFile.absolutePath)
+            val takenImage = BitmapFactory.decodeFile(photoFile?.absolutePath)
             binding.photoTextView.setImageBitmap(takenImage)
         } else {
             super.onActivityResult(requestCode, resultCode, data)

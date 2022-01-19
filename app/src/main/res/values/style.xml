@@ -5,4 +5,9 @@
         <item name="cornerSize">40%</item>
     </style>
 
+    <style name="ShapeAppearance.Button.CutCorners" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">cut</item>
+        <item name="cornerSize">15%</item>
+    </style>
+
 </resources>

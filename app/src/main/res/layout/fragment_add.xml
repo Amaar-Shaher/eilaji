@@ -44,7 +44,7 @@
                 android:ems="10"
                 android:hint="Description"
                 android:inputType="textPersonName"
-                android:text="@={viewmodelvar.description}"
+
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.511"
                 app:layout_constraintStart_toStartOf="parent"
@@ -54,43 +54,47 @@
                 android:id="@+id/first_day_view"
                 android:layout_width="167dp"
                 android:layout_height="35dp"
-                android:layout_marginStart="20dp"
+                android:layout_marginTop="28dp"
+                android:layout_marginEnd="16dp"
                 android:ems="10"
                 android:hint="First Day"
                 android:inputType="date"
-                android:text="@={viewmodelvar.firstDay}"
+
                 android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/last_day_view"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.579" />
+                app:layout_constraintTop_toBottomOf="@+id/description_edit_view" />
+
 
             <EditText
                 android:id="@+id/time_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="100dp"
-                android:layout_marginTop="36dp"
+                android:layout_marginTop="84dp"
                 android:ems="10"
                 android:hint="How many times a day"
                 android:inputType="time"
-                android:text="@={viewmodelvar.manyTime}"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/first_day_view" />
+                app:layout_constraintTop_toBottomOf="@+id/description_edit_view" />
 
             <EditText
                 android:id="@+id/last_day_view"
                 android:layout_width="167dp"
                 android:layout_height="35dp"
-                android:layout_marginTop="400dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginTop="28dp"
+                android:layout_marginEnd="16dp"
                 android:ems="10"
                 android:hint="Last Day"
                 android:inputType="date"
-                android:text="@={viewmodelvar.lastDay}"
+
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toEndOf="@+id/first_day_view"
+                app:layout_constraintTop_toBottomOf="@+id/description_edit_view" />
 
             <Button
                 android:id="@+id/save_btn_view"
@@ -98,7 +102,7 @@
                 android:layout_height="42dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="80dp"
+                android:layout_marginBottom="16dp"
                 android:background="@color/btn"
 
 
@@ -108,32 +112,18 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.461"
+                app:layout_constraintHorizontal_bias="0.538"
                 app:layout_constraintStart_toStartOf="parent" />
-
-
-            <TextView
-                android:id="@+id/take_photo_text_view"
-                android:layout_width="143dp"
-                android:layout_height="44dp"
-                android:layout_marginTop="16dp"
-                android:background="@color/btn"
-                android:text="Take Photo"
-                android:textAlignment="center"
-                android:textColor="#F4F0F0"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/photo_text_view" />
 
             <ImageButton
                 android:id="@+id/take_photo_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toStartOf="@+id/take_photo_text_view"
+                android:backgroundTint="@color/common_google_signin_btn_text_light_disabled"
+
+                android:layout_marginTop="36dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/photo_text_view"
                 app:srcCompat="@drawable/ic_baseline_add_a_photo" />
 

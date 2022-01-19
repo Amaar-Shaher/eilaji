@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.amaar.eilaji.databinding.FragmentLogInBinding
@@ -21,6 +22,8 @@ class LogInFragment : Fragment() {
 
     private lateinit var binding: FragmentLogInBinding
     var isSignedIn = false
+
+    private val profilViewModel : UserProfileViewModel by viewModels()
 
     private val signInLauncher = registerForActivityResult(
         FirebaseAuthUIActivityResultContract()
@@ -41,6 +44,12 @@ class LogInFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+        // action_logInFragment_to_homePageFragment
+        // move isLogIn() to this fragment NOT ViewModel
+//        if (isLogIn() == true){
+//            val intent = Intent(this.requireActivity(), MainActivity2::class.java)
+//            startActivity(intent)
+//        }
     }
 
     override fun onCreateView(
@@ -54,7 +63,8 @@ class LogInFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-binding.loginBtn.setOnClickListener {
+    binding.loginBtn.setOnClickListener {
+
     signInLauncher.launch(signInIntent)
 //    val action = LogInFragmentDirections.actionLogInFragmentToHomePageFragment()
 //    this.findNavController().navigate(action)
@@ -130,4 +140,11 @@ binding.loginBtn.setOnClickListener {
         startActivity(intent)
 
     }
+
+//    fun isLogIn():Boolean{
+//        val currentUser = Firebase.auth.currentUser
+//        if (currentUser != null)
+//            return true
+//        else return false
+//    }
 }

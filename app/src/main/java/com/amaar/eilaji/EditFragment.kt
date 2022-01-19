@@ -27,7 +27,8 @@ import java.io.File
 
 private const val FILE_NAME = "photo.jpg"
 private const val REQUEST_CODE = 42
-private lateinit var photoFile: File
+private var photoFile: File? = null
+
 
 class EditFragment : Fragment() {
 
@@ -41,21 +42,24 @@ class EditFragment : Fragment() {
 
 
     private val viewModel: MyViewModel by viewModels()
-    var index = 0
+    var index = ""
     var takePhoto = ""
     var diescription = ""
     var firstDay = ""
     var lastDay = ""
     var manyTime = ""
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments.let {
-            index = it?.getInt("index")!!
+            index = it?.getString("index")!!
             diescription = it.getString("diescription")!!
             firstDay = it.getString("firstDay")!!
             lastDay = it.getString("lastDay")!!
             manyTime = it.getString("manyTime")!!
+            takePhoto = it.getString("takePhoto")!!
 
         }
     }
@@ -77,8 +81,8 @@ class EditFragment : Fragment() {
             binding.editFirstDay.setText(firstDay)
             binding.editLastDay.setText(lastDay)
             binding.editManyTime.setText(manyTime)
-      //  Glide.with(requireContext()).load(viewModel.takePhoto.toUri())
-         //   .into(binding.photoTextView)
+            Glide.with(requireContext()).load(takePhoto.toUri())
+            .into(binding.photoTextView)
 
 
 
@@ -89,10 +93,15 @@ class EditFragment : Fragment() {
             firstDay = binding.editFirstDay.text.toString()
             lastDay = binding.editLastDay.text.toString()
             manyTime = binding.editManyTime.text.toString()
-            DataSource().updateTask(
-                index,
-                MedicationInfo(takePhoto, diescription, firstDay, lastDay, manyTime)
-            )
+
+
+            viewModel.editmed(MedicationInfo(takePhoto,  diescription , firstDay ,lastDay ,manyTime ,index),
+                photoFile?.toUri())
+            Log.e("TAG", "onViewCreated:${takePhoto} " )
+//            DataSource().updateTask(
+//                index,
+//                MedicationInfo(takePhoto, diescription, firstDay, lastDay, manyTime)
+//            )
             view.findNavController().navigate(R.id.action_editFragment_to_homePageFragment)
 
         }
@@ -124,7 +133,7 @@ class EditFragment : Fragment() {
             val fileProvider = FileProvider.getUriForFile(
                 this.requireContext(),
                 "com.amaar.eilaji.fileprovider",
-                photoFile
+                photoFile!!
             )
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider)
             if (takePictureIntent.resolveActivity(this.requireActivity().packageManager) != null) {
@@ -145,7 +154,7 @@ class EditFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
 //          val takenImage = data?.extras?.get("data") as Bitmap
-            val takenImage = BitmapFactory.decodeFile(photoFile.absolutePath)
+            val takenImage = BitmapFactory.decodeFile(photoFile?.absolutePath)
             binding.photoTextView.setImageBitmap(takenImage)
         } else {
             super.onActivityResult(requestCode, resultCode, data)

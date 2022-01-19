@@ -22,23 +22,7 @@
             android:background="@drawable/backgraund">
 
 
-            <TextView
-                android:id="@+id/edit_photo_text_view2"
-                android:layout_width="143dp"
-                android:layout_height="44dp"
-                android:layout_marginTop="16dp"
-                android:background="@color/btn"
-                android:text="Edit Photo"
-                android:textAlignment="center"
-                android:textColor="#F4F0F0"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/photo_text_view" />
-
-
-                <com.google.android.material.imageview.ShapeableImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/photo_text_view"
                 android:layout_width="366dp"
                 android:layout_height="210dp"
@@ -71,14 +55,15 @@
                 android:layout_width="167dp"
                 android:layout_height="35dp"
                 android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
                 android:ems="10"
                 android:hint="First Day"
                 android:inputType="date"
                 android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/edit_last_day"
+                app:layout_constraintHorizontal_bias="0.081"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.579" />
+                app:layout_constraintTop_toBottomOf="@+id/edit_description_edit_view" />
 
             <EditText
                 android:id="@+id/edit_many_time"
@@ -102,6 +87,7 @@
                 android:hint="Last Day"
                 android:inputType="date"
                 android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/edit_first_day"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/edit_description_edit_view" />
 
@@ -111,7 +97,7 @@
                 android:layout_height="42dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="80dp"
+                android:layout_marginBottom="24dp"
 
                 android:background="@color/btn"
                 android:text="Edit"
@@ -120,17 +106,18 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintHorizontal_bias="0.692"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <ImageButton
                 android:id="@+id/edit_photo_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="4dp"
+                android:layout_marginTop="28dp"
+                android:backgroundTint="@color/common_google_signin_btn_text_light_disabled"
                 android:src="@drawable/ic_baseline_flip_camera_ios_24"
-                app:layout_constraintEnd_toStartOf="@+id/edit_photo_text_view2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/photo_text_view" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

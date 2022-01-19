@@ -47,7 +47,7 @@
             app:destination="@id/homePageFragment" />
         <argument
             android:name="index"
-            app:argType="integer" />
+            app:argType="string" />
         <argument
             android:name="diescription"
             app:argType="string" />
