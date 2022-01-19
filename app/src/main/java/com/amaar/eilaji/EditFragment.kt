@@ -50,7 +50,6 @@ class EditFragment : Fragment() {
     var manyTime = ""
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments.let {
@@ -75,13 +74,11 @@ class EditFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        Log.d("TAG", "onViewCreated: diescription $diescription")
-        Log.d("TAG", "onViewCreated: index $index")
-            binding.editDescriptionEditView.setText(diescription)
-            binding.editFirstDay.setText(firstDay)
-            binding.editLastDay.setText(lastDay)
-            binding.editManyTime.setText(manyTime)
-            Glide.with(requireContext()).load(takePhoto.toUri())
+        binding.editDescriptionEditView.setText(diescription)
+        binding.editFirstDay.setText(firstDay)
+        binding.editLastDay.setText(lastDay)
+        binding.editManyTime.setText(manyTime)
+        Glide.with(requireContext()).load(takePhoto.toUri())
             .into(binding.photoTextView)
 
 
@@ -95,13 +92,11 @@ class EditFragment : Fragment() {
             manyTime = binding.editManyTime.text.toString()
 
 
-            viewModel.editmed(MedicationInfo(takePhoto,  diescription , firstDay ,lastDay ,manyTime ,index),
-                photoFile?.toUri())
-            Log.e("TAG", "onViewCreated:${takePhoto} " )
-//            DataSource().updateTask(
-//                index,
-//                MedicationInfo(takePhoto, diescription, firstDay, lastDay, manyTime)
-//            )
+            viewModel.editmed(
+                MedicationInfo(takePhoto, diescription, firstDay, lastDay, manyTime, index),
+                photoFile?.toUri()
+            )
+
             view.findNavController().navigate(R.id.action_editFragment_to_homePageFragment)
 
         }
@@ -114,11 +109,13 @@ class EditFragment : Fragment() {
 
     private fun allPermissionsGranted() = EditFragment.REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(
-            this.requireContext(), it) == PackageManager.PERMISSION_GRANTED
+            this.requireContext(), it
+        ) == PackageManager.PERMISSION_GRANTED
     }
+
     private fun getPhotoFile(fileName: String): File {
-        //Use `getExternalFilesDir` on Context to access package-specific directories.
-        val storageDirectory = this.requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val storageDirectory =
+            this.requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File.createTempFile(fileName, ".jpg", storageDirectory)
     }
 
@@ -140,7 +137,6 @@ class EditFragment : Fragment() {
                 startActivityForResult(takePictureIntent, REQUEST_CODE)
 
             } else {
-                // Toast.makeText(this, "Unable to open camera", Toast.LENGTH_SHORT).show()
             }
         } else {
             ActivityCompat.requestPermissions(
@@ -153,7 +149,7 @@ class EditFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-//          val takenImage = data?.extras?.get("data") as Bitmap
+
             val takenImage = BitmapFactory.decodeFile(photoFile?.absolutePath)
             binding.photoTextView.setImageBitmap(takenImage)
         } else {

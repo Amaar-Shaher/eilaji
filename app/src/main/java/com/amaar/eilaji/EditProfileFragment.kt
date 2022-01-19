@@ -44,21 +44,21 @@ class EditProfileFragment : Fragment() {
             saveDataUser(user)
         }
     }
-    private fun setDataUser():UserInfo{
+
+    private fun setDataUser(): UserInfo {
         val userId = Firebase.auth.currentUser!!.uid
         val nameUser = binding.patientNameEditText.text.toString()
         val numberUser = binding.patientMobileNumberEditText.text.toString()
         val imageUser = binding.personImageView.toString()
 
-        return UserInfo(userId,nameUser,numberUser,imageUser)
+        return UserInfo(userId, nameUser, numberUser, imageUser)
     }
 
-      fun saveDataUser(userInfo : UserInfo){
+    fun saveDataUser(userInfo: UserInfo) {
         setDataUser()
-      //  viewModel.getUser()
         profileDataBase.document(userInfo.idUser).set(userInfo)
-            .addOnCompleteListener{task ->
-                if (task.isSuccessful){
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
                     Toast.makeText(this.requireContext(), "saved", Toast.LENGTH_SHORT).show()
                     findNavController().navigate(R.id.action_editProfileFragment_to_profileFragment)
 
@@ -66,10 +66,11 @@ class EditProfileFragment : Fragment() {
             }
     }
 
-    private fun displayUserInfo () {
-        viewModel.name.observe(viewLifecycleOwner,{binding!!.patientNameEditText.setText(it)})
+    private fun displayUserInfo() {
+        viewModel.name.observe(viewLifecycleOwner, { binding!!.patientNameEditText.setText(it) })
 
-        viewModel.mobileNumber.observe(viewLifecycleOwner,{binding!!.patientMobileNumberEditText.setText(it)})
+        viewModel.mobileNumber.observe(viewLifecycleOwner,
+            { binding!!.patientMobileNumberEditText.setText(it) })
 
     }
 }
