@@ -5,6 +5,7 @@ import android.net.Uri
 import android.util.Log
 import android.widget.Toast
 import androidx.core.net.toUri
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,15 +17,12 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.math.absoluteValue
 
 class MyViewModel : ViewModel() {
-    //    var index = 0
 
     private val dataAddDataBase = Firebase.firestore.collection("data medication")
 
@@ -34,7 +32,8 @@ class MyViewModel : ViewModel() {
             saveAddDataUser(medicationInfo, image)
         }
     }
-    fun deleteMed(medicationInfo: MedicationInfo){
+
+    fun deleteMed(medicationInfo: MedicationInfo) {
         viewModelScope.launch {
             delete(medicationInfo)
         }
@@ -43,23 +42,23 @@ class MyViewModel : ViewModel() {
     fun editmed(medicationInfo: MedicationInfo, image: Uri?) {
         viewModelScope.launch {
             editMedication(medicationInfo, image)
-            Log.e("TAG", "editmed:${medicationInfo.describtion} ",)
+            Log.e("TAG", "editmed:${medicationInfo.describtion} ")
         }
     }
 
     suspend fun saveAddDataUser(medicationInfo: MedicationInfo, image: Uri) {
         upload(image).collect {
-            var userId = FirebaseAuth.getInstance().currentUser!!.uid
-            var mad = dataAddDataBase.document(userId)
+            // val userId = FirebaseAuth.getInstance().currentUser!!.uid
+            val mad = dataAddDataBase.document()
             medicationInfo.takePhoto = it.toString()
             medicationInfo.idDataUser = mad.id
+            // mu list
+            //  list.value.add(medicationInfo)
             mad.set(medicationInfo)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-//                        Log.d("TAG", "$description")
                     }
                 }.addOnFailureListener {
-                    Log.e("TAG", "not work")
                 }
         }
     }
@@ -70,7 +69,6 @@ class MyViewModel : ViewModel() {
         storageRef.putFile(file).addOnSuccessListener {
             storageRef.downloadUrl.addOnSuccessListener { imageUri ->
 
-                Log.e("TAG", "imageUrl:$imageUri")
                 trySend(imageUri)
             }
 
@@ -86,70 +84,35 @@ class MyViewModel : ViewModel() {
     suspend fun editMedication(medicationInfo: MedicationInfo, image: Uri?) {
 
         if (image != null) {
-        upload(image).collect {
+            upload(image).collect {
 //            val db = Firebase.firestore
-            medicationInfo.takePhoto = it.toString()
+                medicationInfo.takePhoto = it.toString()
 //               medicationInfo.idDataUser = id
-//                Log.e("TAG", "editMedcation: hi:$id")
-            dataAddDataBase.document(medicationInfo.idDataUser)
-                .set(medicationInfo)
-                .addOnCompleteListener { documentReference ->
-                    Log.e("TAG", "editMedcation:${documentReference.result}")
-                }
-                .addOnFailureListener {
 
-                }
-        }
+                dataAddDataBase.document(medicationInfo.idDataUser)
+                    .set(medicationInfo)
+                    .addOnCompleteListener { documentReference ->
+                    }
+                    .addOnFailureListener {
+
+                    }
+            }
         } else {
 
             dataAddDataBase.document(medicationInfo.idDataUser)
                 .set(medicationInfo)
                 .addOnCompleteListener { documentReference ->
-                    Log.e("TAG", "editMedcation:${documentReference.result}")
                 }
         }
     }
 
 
-    suspend fun delete(medicationInfo: MedicationInfo){
+    suspend fun delete(medicationInfo: MedicationInfo) {
         dataAddDataBase.document(medicationInfo.idDataUser)
             .delete()
 
     }
 
-//    suspend   fun getUser(): Flow<UserInfo> = callbackFlow {
-//        try {
-//            userDataBase.document(getUserId()!!)
-//                .addSnapshotListener { snapshot, exception ->
-//                    if (exception != null) {
-//                        return@addSnapshotListener
-//                    }
-//
-//                    if (snapshot?.data != null) {
-//                        val user = snapshot.toObject(UserInfo::class.java)
-//                        trySend(user!!)
-//                    }
-//
-//                }
-//
-//
-//        } catch (exception: Exception) {
-//            Log.e("Exception", "getAllProducts: ${exception.message.toString()}")
-//
-//        }
-//
-//
-//        awaitClose { }
-//    }
-//
-//    fun getuserfuntocallsuspendfunction (){
-//        viewModelScope.launch {
-//            getUser().collect{
-//            userInfodataclass.value=it
-//            }
-//        }
-//
-//    }
 
 }
 

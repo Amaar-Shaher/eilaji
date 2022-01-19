@@ -27,8 +27,11 @@ class ProfileFragment : Fragment() {
     private val binding get() = _binding
 
 
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         return binding!!.root
 
@@ -58,10 +61,11 @@ class ProfileFragment : Fragment() {
 
     }
 
-    private fun displayUserInfo () {
-        viewModel.name.observe(viewLifecycleOwner,{binding!!.patientNameTextView.setText(it)})
+    private fun displayUserInfo() {
+        viewModel.name.observe(viewLifecycleOwner, { binding!!.patientNameTextView.setText(it) })
 
-        viewModel.mobileNumber.observe(viewLifecycleOwner,{binding!!.patientMobileNumberTextView.setText(it)})
+        viewModel.mobileNumber.observe(viewLifecycleOwner,
+            { binding!!.patientMobileNumberTextView.setText(it) })
 
         binding!!.patientEmailTextView.setText(viewModel.getUserEmail())
 

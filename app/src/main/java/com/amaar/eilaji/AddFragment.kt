@@ -54,115 +54,71 @@ class AddFragment : Fragment() {
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
     }
 
-    private fun getAddDataUser():MedicationInfo{
-    //    val takePhoto = binding.takePhotoTextView.text.toString()
+    private fun getAddDataUser(): MedicationInfo {
         val descraption = binding.descriptionEditView.text.toString()
         val farstDay = binding.firstDayView.text.toString()
         val lastDay = binding.lastDayView.text.toString()
         val manyTime = binding.timeView.text.toString()
 
-       // Log.e("TAG", "getAddDataUser: ${MedicationInfo(descraption,farstDay,lastDay,manyTime)}", )
-        return MedicationInfo("",descraption,farstDay,lastDay,manyTime)
+        return MedicationInfo("", descraption, farstDay, lastDay, manyTime)
     }
 
-//    private fun saveAddDataUser(medicationInfo : MedicationInfo){
-//        var mad = dataAddDataBase.document()
-//        medicationInfo.idDataUser= mad.id
-//        mad.set(medicationInfo)
-//            .addOnCompleteListener{task ->
-//                if (task.isSuccessful) {
-//                    Toast.makeText(this.requireContext(), "OK", Toast.LENGTH_SHORT).show()
-//                }
-//            }
-//    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentAddBinding.inflate(inflater, container, false)
+        return binding.root
 
 
+    }
 
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        binding.apply {
 
+            viewmodelvar = viewModel
+        }
 
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//
-//        save.setOnClickListener {
-//            val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-//            photoFile = getPhotoFile(FILE_NAME)
-//
-//        }
-   // }
+        binding.saveBtnView.setOnClickListener {
 
+            var userAddet = getAddDataUser()
 
+            viewModel.addNew(userAddet, photoFile!!.toUri())
 
-        override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
-        ): View? {
-            binding = FragmentAddBinding.inflate(inflater, container, false)
-            return binding.root
+            Navigation.findNavController(view)
+                .navigate(AddFragmentDirections.actionAddFragmentToHomePageFragment())
+        }
+        binding.takePhotoBtn.setOnClickListener {
+
+            camera()
 
 
         }
 
 
-        override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    }
 
-            binding.apply {
-//       / arguments.let  {
-//  /          index = it?.getInt("index")!!
-//            description = it.getString("description")!!
-//            firstDay = it.getInt("firstDay")!!
-//            lastDay = it.getInt("lastDay")!!
-//            manyTime = it.getInt("manyTime")!!
-
-//            binding.descriptionEditView.setText(description)
-//            binding.firstDayView.setText(firstDay)
-//            binding.lastDayView.setText(lastDay)
-//            binding.timeView.setText(manyTime)
-
-                // lifecycleOwner=viewLifecycleOwner
-                viewmodelvar = viewModel
-            }
-
-            binding.saveBtnView.setOnClickListener {
-
-                var userAddet = getAddDataUser()
-                Log.e("TAG", "onViewCreatedbefore: ${userAddet.describtion}", )
-
-                viewModel.addNew(userAddet , photoFile!!.toUri())
-                Log.e("TAG", "onViewCreated1: ${userAddet.describtion}", )
-                Log.e("TAG", "onViewCreated2: ${userAddet.firstDay}", )
-                Log.e("TAG", "onViewCreated3: ${userAddet.lastDay}", )
-
-
-                Navigation.findNavController(view)
-                    .navigate(AddFragmentDirections.actionAddFragmentToHomePageFragment())
-               // viewModel.AddToList()
-            }
-            binding.takePhotoBtn.setOnClickListener {
-
-              camera()
-
-
-            }
-
-
-        }
-     fun camera(){
+    fun camera() {
         Toast.makeText(this.requireContext(), "camera", Toast.LENGTH_SHORT).show()
         if (allPermissionsGranted()) {
-           val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             startActivity(takePictureIntent)
             photoFile = getPhotoFile(FILE_NAME)
 
-            val fileProvider = FileProvider.getUriForFile(this.requireContext(), "com.amaar.eilaji.fileprovider", photoFile!!)
+            val fileProvider = FileProvider.getUriForFile(
+                this.requireContext(),
+                "com.amaar.eilaji.fileprovider",
+                photoFile!!
+            )
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider)
             if (takePictureIntent.resolveActivity(this.requireActivity().packageManager) != null) {
                 startActivityForResult(takePictureIntent, REQUEST_CODE)
 
             } else {
-                // Toast.makeText(this, "Unable to open camera", Toast.LENGTH_SHORT).show()
             }
         } else {
             ActivityCompat.requestPermissions(
@@ -173,17 +129,17 @@ class AddFragment : Fragment() {
         }
 
 
-
     }
+
     private fun getPhotoFile(fileName: String): File {
-        //Use `getExternalFilesDir` on Context to access package-specific directories.
-        val storageDirectory = this.requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val storageDirectory =
+            this.requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File.createTempFile(fileName, ".jpg", storageDirectory)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-//          val takenImage = data?.extras?.get("data") as Bitmap
+
             val takenImage = BitmapFactory.decodeFile(photoFile?.absolutePath)
             binding.photoTextView.setImageBitmap(takenImage)
         } else {
@@ -191,66 +147,31 @@ class AddFragment : Fragment() {
         }
 
 
-      //  if (checkPersmission())  else requestPermission()
     }
-
-
-
-
-
-//    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-//        when (requestCode) {
-//            PERMISSION_REQUEST_CODE -> {
-//
-//                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-//                    && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-//
-//                  //  takePicture()
-//
-//                } else {
-//                  //  Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show()
-//                }
-//                return
-//            }
-//
-//            else -> {
-//
-//            }
-//        }
-//    }
-//
-//
-//
-//    private fun checkPersmission(): Boolean {
-//        return (ContextCompat.checkSelfPermission(this.requireContext(), Manifest.permission.CAMERA) ==
-//              PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this.requireContext(),
-//            Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
-//    }
-//
-//    private fun requestPermission() {
-//        ActivityCompat.requestPermissions(this.requireActivity(), arrayOf(READ_EXTERNAL_STORAGE, CAMERA), PERMISSION_REQUEST_CODE)
-//    }
-
 
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(
-            this.requireContext(), it) == PackageManager.PERMISSION_GRANTED
+            this.requireContext(), it
+        ) == PackageManager.PERMISSION_GRANTED
     }
 
     override fun onRequestPermissionsResult(
         requestCode: Int, permissions: Array<String>, grantResults:
-        IntArray) {
+        IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
             if (allPermissionsGranted()) {
-               // startCamera()
+                // startCamera()
             } else {
-                Toast.makeText(this.requireContext(),
+                Toast.makeText(
+                    this.requireContext(),
                     "Permissions not granted by the user.",
-                    Toast.LENGTH_SHORT).show()
+                    Toast.LENGTH_SHORT
+                ).show()
                 this.requireActivity().finish()
             }
         }
     }
-    }
+}

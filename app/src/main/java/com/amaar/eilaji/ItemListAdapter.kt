@@ -17,57 +17,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.amaar.eilaji.databinding.ItemListBinding
 import com.bumptech.glide.Glide
 
-//class ItemListAdapter :
-//    ListAdapter<MedicationInfo, ItemListAdapter.ItemViewHolder>(DiffCallback) {
-//
-//
-//    class ItemViewHolder(private var binding: ItemListBinding) :
-//        RecyclerView.ViewHolder(binding.root) {
-//
-//        fun bind(item: MedicationInfo) {
-//           // binding.imageView. = item.takePhoto
-//            binding.descriptionTextView.text = item.describtion
-//
-//
-//        }
-//    }
-//
-//    companion object {
-//        private val DiffCallback = object : DiffUtil.ItemCallback<MedicationInfo>() {
-//            override fun areItemsTheSame(oldItem: MedicationInfo, newItem: MedicationInfo): Boolean {
-//                return oldItem.describtion === newItem.describtion
-//            }
-//
-//            override fun areContentsTheSame(oldItem: MedicationInfo, newItem: MedicationInfo): Boolean {
-//                return oldItem.describtion == newItem.describtion
-//            }
-//        }
-//    }
-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-//        return ItemViewHolder(
-//            ItemListBinding.inflate(
-//                LayoutInflater.from(
-//                    parent.context
-//                )
-//            )
-//        )
-//    }
-//
-//    override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-//        val current = getItem(position)
-//        holder.itemView.setOnClickListener {
-//            val action = HomePageFragmentDirections.actionHomePageFragmentToAddFragment()
-//            holder.itemView.findNavController().navigate(action)
-//        }
-//        holder.bind(current)
-//    }
-// }
 
-
-class ItemListAdapter(private val viewModel : MyViewModel) : ListAdapter<MedicationInfo,
+class ItemListAdapter(private val viewModel: MyViewModel) : ListAdapter<MedicationInfo,
         ItemListAdapter.ItemViewHolder>(DiffCallBack) {
     var datasourceObject = DataSource()
-
 
 
     var takePhoto = ""
@@ -88,41 +41,31 @@ class ItemListAdapter(private val viewModel : MyViewModel) : ListAdapter<Medicat
 
         }
 
-        // var medImage : ImageView = binding.medicationImageView
         var des: TextView = binding.describtionTextView
         val delete: ImageButton = binding.deleteIcon
         var edit: ImageButton = binding.editIcon
         var image: ImageView = binding.medicationImageView
 
-        //  val desTextview: TextView = binding.descriptionTextView
     }
 
-//    companion object DiffCallback : DiffUtil.ItemCallback<MedicationInfo>() {
-////        override fun areItemsTheSame(oldItem: MedicationInfo, newItem: MedicationInfo): Boolean {
-////            return newItem.describtion == oldItem.describtion
-////        }
-//
-//
-//        override fun areContentsTheSame(oldItem: MedicationInfo, newItem: MedicationInfo): Boolean {
-//            return oldItem.describtion == newItem.describtion
-//        }
-companion object {
-    private val DiffCallBack = object : DiffUtil.ItemCallback<MedicationInfo>() {
-        override fun areItemsTheSame(
-            oldItem: MedicationInfo,
-            newItem: MedicationInfo
-        ): Boolean {
-            return oldItem.describtion == newItem.describtion
-        }
 
-        override fun areContentsTheSame(
-            oldItem: MedicationInfo,
-            newItem: MedicationInfo
-        ): Boolean {
-            return oldItem.takePhoto == newItem.takePhoto
+    companion object {
+        private val DiffCallBack = object : DiffUtil.ItemCallback<MedicationInfo>() {
+            override fun areItemsTheSame(
+                oldItem: MedicationInfo,
+                newItem: MedicationInfo
+            ): Boolean {
+                return oldItem.describtion == newItem.describtion
+            }
+
+            override fun areContentsTheSame(
+                oldItem: MedicationInfo,
+                newItem: MedicationInfo
+            ): Boolean {
+                return oldItem.takePhoto == newItem.takePhoto
+            }
         }
     }
-}
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -130,7 +73,7 @@ companion object {
     ): ItemViewHolder {
         return ItemViewHolder(
             ItemListBinding.inflate(
-                LayoutInflater.from(parent.context),parent,false
+                LayoutInflater.from(parent.context), parent, false
             )
         )
     }
@@ -139,19 +82,15 @@ companion object {
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
 
 
-
-
         val item = getItem(position)
         holder.bind(item)
-        Log.e("TAG","${item.takePhoto}")
+        Log.e("TAG", "${item.takePhoto}")
 
         Glide.with(holder.image)
 
             .load(item.takePhoto)
             .into(holder.image)
 
-       // Glide.
-       // holder.image. = item.takePhoto
         holder.des.text = item.describtion
         holder.delete.setOnClickListener {
             viewModel.deleteMed(item)
@@ -161,17 +100,16 @@ companion object {
         holder.edit.setOnClickListener { view: View ->
             Log.d("TAG", "onBindViewHolder: ${item.describtion}")
             Navigation.findNavController(view)
-                .navigate(HomePageFragmentDirections.actionHomePageFragmentToEditFragment(item.idDataUser,item.describtion,item.firstDay,item.lastDay,item.manyTime,item.takePhoto))
-                //view.findNavController().navigate(position)
-          //  datasourceObject.updateTask(index, MedicationInfo(takePhoto, describtion, firstDay, lastDay, manyTime ))
-
-
-//        holder.desTextview.setOnClickListener {
-//           view -> view.findNavController().navigate(R.id.action_moviesFragment_to_detailsFragment)
-//            val action = HomePageFragmentDirections.actionHomePageFragmentToAddFragment()
-//            holder.desTextview.findNavController().navigate(action)
-//
-//        }
+                .navigate(
+                    HomePageFragmentDirections.actionHomePageFragmentToEditFragment(
+                        item.idDataUser,
+                        item.describtion,
+                        item.firstDay,
+                        item.lastDay,
+                        item.manyTime,
+                        item.takePhoto
+                    )
+                )
 
 
         }

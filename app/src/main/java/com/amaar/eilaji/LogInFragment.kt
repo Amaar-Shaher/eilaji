@@ -23,7 +23,7 @@ class LogInFragment : Fragment() {
     private lateinit var binding: FragmentLogInBinding
     var isSignedIn = false
 
-    private val profilViewModel : UserProfileViewModel by viewModels()
+    private val profilViewModel: UserProfileViewModel by viewModels()
 
     private val signInLauncher = registerForActivityResult(
         FirebaseAuthUIActivityResultContract()
@@ -57,19 +57,18 @@ class LogInFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-       // return super.onCreateView(inflater, container, savedInstanceState)
+        // return super.onCreateView(inflater, container, savedInstanceState)
         binding = FragmentLogInBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    binding.loginBtn.setOnClickListener {
+        binding.loginBtn.setOnClickListener {
 
-    signInLauncher.launch(signInIntent)
-//    val action = LogInFragmentDirections.actionLogInFragmentToHomePageFragment()
-//    this.findNavController().navigate(action)
+            signInLauncher.launch(signInIntent)
 
-}
+
+        }
 
     }
 
@@ -100,7 +99,7 @@ class LogInFragment : Fragment() {
             menu.findItem(R.id.log_in)?.isVisible = false
             menu.findItem(R.id.log_out)?.isVisible = true
         } else {
-            menu.findItem(R.id.log_in)?.isVisible =  true
+            menu.findItem(R.id.log_in)?.isVisible = true
             menu.findItem(R.id.log_out)?.isVisible = false
         }
 
@@ -109,7 +108,7 @@ class LogInFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        // Check if user is signed in (non-null) and update UI accordingly.
+
         val currentUser = Firebase.auth.currentUser
         if (currentUser != null) {
             isSignedIn = true
@@ -121,13 +120,10 @@ class LogInFragment : Fragment() {
     private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
         val response = result.idpResponse
         if (result.resultCode == AppCompatActivity.RESULT_OK) {
-           // val user = FirebaseAuth.getInstance().currentUser
+
             val intent = Intent(this.requireActivity(), MainActivity2::class.java)
             startActivity(intent)
-         //   val action = LogInFragmentDirections.actionLogInFragmentToHomePageFragment()
-        //    this.findNavController().navigate(action)
-        //    Navigation.findNavController(view).navigate(LogInFragmentDirections.actionLogInFragmentToHomePageFragment())
-            //println(user?.email)
+
         } else {
             println("else")
         }
