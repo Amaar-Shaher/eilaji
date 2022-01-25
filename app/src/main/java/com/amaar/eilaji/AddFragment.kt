@@ -9,6 +9,8 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
+import android.icu.text.SimpleDateFormat
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -21,6 +23,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -28,15 +31,19 @@ import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil.setContentView
 
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.*
 import androidx.media.MediaBrowserServiceCompat.RESULT_OK
 
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.amaar.eilaji.databinding.FragmentAddBinding
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.launch
 import java.io.File
+import java.util.*
 
 private const val FILE_NAME = "photo.jpg"
 private const val REQUEST_CODE = 42
@@ -76,22 +83,33 @@ class AddFragment : Fragment() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                binding.saveBtnView.setOnClickListener {
+                    if (validationHasPhoto()) {
+                        addData()
+                    } else
+                        Toast.makeText(requireContext(), getString(R.string.add_image_please), Toast.LENGTH_SHORT)
+                            .show()
+                }
+            }
+        }
 
         binding.apply {
 
             viewmodelvar = viewModel
         }
-
-        binding.saveBtnView.setOnClickListener {
-
-            var userAddet = getAddDataUser()
-
-            viewModel.addNew(userAddet, photoFile!!.toUri())
-
-            Navigation.findNavController(view)
-                .navigate(AddFragmentDirections.actionAddFragmentToHomePageFragment())
+        binding.firstDate.setOnClickListener {
+            showDatePicker()
         }
+        binding.lastDate.setOnClickListener {
+            showDatePickerEnd()
+        }
+
+
         binding.takePhotoBtn.setOnClickListener {
 
             camera()
@@ -103,7 +121,7 @@ class AddFragment : Fragment() {
     }
 
     fun camera() {
-        Toast.makeText(this.requireContext(), "camera", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this.requireContext(), getString(R.string.camera), Toast.LENGTH_SHORT).show()
         if (allPermissionsGranted()) {
             val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             startActivity(takePictureIntent)
@@ -173,5 +191,65 @@ class AddFragment : Fragment() {
                 this.requireActivity().finish()
             }
         }
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun convertMillisecondsToReadableDate(
+        dateMilliseconds: Long,
+        datePattern: String
+    ): String {
+        val format = SimpleDateFormat(datePattern, Locale.getDefault())
+        return format.format(Date(dateMilliseconds))
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun showDatePicker() {
+        var datepickA = ""
+
+        val datePickerL = MaterialDatePicker.Builder.datePicker()
+            .setTitleText("Select date").setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+            .build()
+        datePickerL.show(parentFragmentManager, "DatePicker")
+        datePickerL.addOnPositiveButtonClickListener {
+            datepickA = convertMillisecondsToReadableDate(it, "YYY, MM d ")
+
+            binding?.firstDayView?.setText(datepickA)
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun showDatePickerEnd() {
+        var lastDatePick = ""
+
+        val lastDatepick = MaterialDatePicker.Builder.datePicker()
+            .setTitleText("Select date")
+            .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+            .build()
+        lastDatepick.show(parentFragmentManager, "DatePicker")
+        lastDatepick.addOnPositiveButtonClickListener {
+            lastDatePick = convertMillisecondsToReadableDate(it, "YYY, MM d ")
+            binding?.lastDayView?.setText(lastDatePick)
+
+        }
+
+    }
+
+    fun validationHasPhoto():Boolean{
+        var result = true
+        if (photoFile == null){
+            result = false
+        }else true
+
+        return result
+    }
+
+    fun addData(){
+
+            var userAddet = getAddDataUser()
+
+            viewModel.addNew(userAddet, photoFile!!.toUri())
+            findNavController().navigate(R.id.action_addFragment_to_homePageFragment)
+
     }
 }

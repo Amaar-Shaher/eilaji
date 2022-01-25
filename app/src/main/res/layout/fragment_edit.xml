@@ -22,6 +22,31 @@
             android:background="@drawable/backgraund">
 
 
+            <ImageButton
+                android:id="@+id/last_date2"
+                android:layout_width="32dp"
+                android:layout_height="28dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/edit_last_day"
+                app:layout_constraintTop_toBottomOf="@+id/edit_description_edit_view"
+                app:layout_constraintVertical_bias="0.109"
+                app:srcCompat="@drawable/ic_baseline_date_range_24" />
+
+            <ImageButton
+                android:id="@+id/first_date2"
+                android:layout_width="32dp"
+                android:layout_height="28dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/edit_first_day"
+                app:layout_constraintHorizontal_bias="0.695"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_description_edit_view"
+                app:layout_constraintVertical_bias="0.109"
+                app:srcCompat="@drawable/ic_baseline_date_range_24" />
+
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/photo_text_view"
                 android:layout_width="366dp"
@@ -52,8 +77,8 @@
 
             <EditText
                 android:id="@+id/edit_first_day"
-                android:layout_width="167dp"
-                android:layout_height="35dp"
+                android:layout_width="133dp"
+                android:layout_height="43dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:ems="10"
@@ -79,16 +104,16 @@
 
             <EditText
                 android:id="@+id/edit_last_day"
-                android:layout_width="167dp"
-                android:layout_height="35dp"
+                android:layout_width="133dp"
+                android:layout_height="43dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:ems="10"
                 android:hint="@string/last_day"
                 android:inputType="date"
                 android:textSize="14sp"
-                app:layout_constraintStart_toEndOf="@+id/edit_first_day"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/edit_first_day"
                 app:layout_constraintTop_toBottomOf="@+id/edit_description_edit_view" />
 
             <Button

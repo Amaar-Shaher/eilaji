@@ -28,6 +28,7 @@ class MyViewModel : ViewModel() {
 
 
     fun addNew(medicationInfo: MedicationInfo, image: Uri) {
+
         viewModelScope.launch {
             saveAddDataUser(medicationInfo, image)
         }

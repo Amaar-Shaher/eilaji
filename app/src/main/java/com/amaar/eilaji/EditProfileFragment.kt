@@ -59,7 +59,7 @@ class EditProfileFragment : Fragment() {
         profileDataBase.document(userInfo.idUser).set(userInfo)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Toast.makeText(this.requireContext(), "saved", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this.requireContext(), getString(R.string.saved), Toast.LENGTH_SHORT).show()
                     findNavController().navigate(R.id.action_editProfileFragment_to_profileFragment)
 
                 }

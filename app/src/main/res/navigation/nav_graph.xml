@@ -8,7 +8,8 @@
     <fragment
         android:id="@+id/homePageFragment"
         android:name="com.amaar.eilaji.HomePageFragment"
-        android:label="Home"
+        android:label="@string/home"
+
         tools:layout="@layout/fragment_home_page">
         <action
             android:id="@+id/action_homePageFragment_to_addFragment"
@@ -23,7 +24,8 @@
     <fragment
         android:id="@+id/addFragment"
         android:name="com.amaar.eilaji.AddFragment"
-        android:label="Add"
+        android:label="@string/add"
+
         tools:layout="@layout/fragment_add">
         <action
             android:id="@+id/action_addFragment_to_homePageFragment"
@@ -41,7 +43,8 @@
     <fragment
         android:id="@+id/editFragment"
         android:name="com.amaar.eilaji.EditFragment"
-        android:label="Edit">
+        android:label="@string/edit"
+        >
         <action
             android:id="@+id/action_editFragment_to_homePageFragment"
             app:destination="@id/homePageFragment" />
@@ -67,7 +70,8 @@
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.amaar.eilaji.ProfileFragment"
-        android:label="Profile"
+        android:label="@string/profile"
+
         tools:layout="@layout/fragment_profile">
         <action
             android:id="@+id/action_profileFragment_to_homePageFragment"

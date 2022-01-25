@@ -43,7 +43,7 @@ class LogInFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
+        setHasOptionsMenu(false)
         // action_logInFragment_to_homePageFragment
         // move isLogIn() to this fragment NOT ViewModel
 //        if (isLogIn() == true){

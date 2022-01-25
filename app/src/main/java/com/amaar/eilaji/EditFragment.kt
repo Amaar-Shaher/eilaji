@@ -5,6 +5,8 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
+import android.icu.text.SimpleDateFormat
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -14,6 +16,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -22,7 +25,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.amaar.eilaji.databinding.FragmentEditBinding
 import com.bumptech.glide.Glide
+import com.google.android.material.datepicker.MaterialDatePicker
 import java.io.File
+import java.util.*
 
 
 private const val FILE_NAME = "photo.jpg"
@@ -72,6 +77,7 @@ class EditFragment : Fragment() {
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         binding.editDescriptionEditView.setText(diescription)
@@ -99,6 +105,13 @@ class EditFragment : Fragment() {
 
             view.findNavController().navigate(R.id.action_editFragment_to_homePageFragment)
 
+        }
+
+        binding.firstDate2.setOnClickListener {
+            showDatePicker()
+        }
+        binding.lastDate2.setOnClickListener {
+            showDatePickerEnd()
         }
 
         binding.editPhotoBtn.setOnClickListener {
@@ -155,5 +168,46 @@ class EditFragment : Fragment() {
         } else {
             super.onActivityResult(requestCode, resultCode, data)
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun convertMillisecondsToReadableDate(
+        dateMilliseconds: Long,
+        datePattern: String
+    ): String {
+        val format = SimpleDateFormat(datePattern, Locale.getDefault())
+        return format.format(Date(dateMilliseconds))
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun showDatePicker() {
+        var datepickA = ""
+
+        val datePickerL = MaterialDatePicker.Builder.datePicker()
+            .setTitleText("Select date").setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+            .build()
+        datePickerL.show(parentFragmentManager, "DatePicker")
+        datePickerL.addOnPositiveButtonClickListener {
+            datepickA = convertMillisecondsToReadableDate(it, "YYY, MM d ")
+
+            binding?.editFirstDay?.setText(datepickA)
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun showDatePickerEnd() {
+        var lastDatePick = ""
+
+        val lastDatepick = MaterialDatePicker.Builder.datePicker()
+            .setTitleText("Select date")
+            .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+            .build()
+        lastDatepick.show(parentFragmentManager, "DatePicker")
+        lastDatepick.addOnPositiveButtonClickListener {
+            lastDatePick = convertMillisecondsToReadableDate(it, "YYY, MM d ")
+            binding?.editLastDay?.setText(lastDatePick)
+
+        }
+
     }
 }
